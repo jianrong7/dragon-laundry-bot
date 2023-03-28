@@ -2,10 +2,9 @@ import datetime
 import random
 import re
 from pytz import timezone
-import telegram
-from telegram import Bot, Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
+from telegram import Bot, Update, InlineKeyboardButton, InlineKeyboardMarkup
 import logging
-from telegram.ext import Updater, CommandHandler, CallbackContext, CallbackQueryHandler, ConversationHandler, Filters, MessageHandler
+from telegram.ext import Updater, CommandHandler, CallbackContext, CallbackQueryHandler, ConversationHandler
 
 logging.basicConfig(
   format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -67,7 +66,7 @@ LOCAL_TIMEZONE = timezone('Asia/Singapore')
 
 # Initialise TelegramBot
 # Actual laundry bot
-Tbot = telegram.Bot("1643260816:AAFh7atOxVaQuTQzCzNj-dQi_0iRzcJb9HY")
+Tbot = Bot("1643260816:AAFh7atOxVaQuTQzCzNj-dQi_0iRzcJb9HY")
 # Test Laundry Bot
 # Tbot = telegram.Bot("5480884899:AAH5QJV9TL4Ls9DxJzFZwCEvJcfqWxiAwpc")
 
@@ -545,7 +544,7 @@ def handle_message(update: Update, context: CallbackContext) -> None:
       animation=gif,
       caption=
       "GRRRRR, This is the <b>5th time in a row</b> someone has indicated that the laundry machine is hogged/blocked from being used🤬🤬🤬!\n\nPlease use @dragon_laundry_bot to keep track of the laundry machine usage and be ON TIME for your laundry.\n\n/status: View the status of all laundry machines.\n\nI am resetting the counter.",
-      parse_mode=telegram.ParseMode.HTML)
+      )
     TIMES_CALLED_OUT = 0
   return
 
@@ -560,6 +559,7 @@ def main() -> None:
 
   # Get the dispatcher to register handlers
   dispatcher = updater.dispatcher
+  # dispatcher = Dispatcher(Tbot)
 
   # Use the pattern parameter to pass CallbackQueries with specific
   # data pattern to the corresponding handlers.
@@ -571,9 +571,9 @@ def main() -> None:
       CommandHandler('start', start),
       CommandHandler("select", select),
       CommandHandler("status", status),
-      MessageHandler(
-        ~Filters.command & Filters.regex(re.compile(r"done", re.IGNORECASE)),
-        handle_message)
+      # MessageHandler(
+      #   ~Filters.command & Filters.regex(re.compile(r"done", re.IGNORECASE)),
+      #   handle_message)
     ],
     states={
       MENU: [
@@ -607,9 +607,9 @@ def main() -> None:
       CommandHandler('start', start),
       CommandHandler("select", select),
       CommandHandler("status", status),
-      MessageHandler(
-        ~Filters.command & Filters.regex(re.compile(r"done", re.IGNORECASE)),
-        handle_message)
+      # MessageHandler(
+      #   ~Filters.command & Filters.regex(re.compile(r"done", re.IGNORECASE)),
+      #   handle_message)
     ],
   )
 
